@@ -15,7 +15,7 @@ body {
       rgba(43, 50, 178, 0.5) 80%,
       rgba(20, 136, 204, 0.5) 100%
     ),
-    url(../Images/pexels-arnie-chou-1229042.jpg);
+    url(../Images/background.jpg);
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
