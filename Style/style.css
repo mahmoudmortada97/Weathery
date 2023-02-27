@@ -20,6 +20,7 @@ body {
   background-attachment: fixed;
   background-position: center;
   background-size: cover;
+  overflow-x: hidden;
 }
 
 @media screen and (min-width: 700px) {
@@ -162,6 +163,7 @@ body {
   background-color: rgba(0, 0, 0, 0.45);
   font-size: 1.125em;
   text-align: center;
+  transition: transform 0.5s, border 0.5s;
 }
 
 @media screen and (min-width: 880px) {
@@ -202,8 +204,13 @@ body {
   background-color: rgba(150, 14, 14, 0.25);
   font-size: 1.19em;
   text-align: center;
+  transition: transform 0.5s, border 0.5s;
 }
-
+.weather-by-hour__item:hover,
+.next-5-days__row:hover {
+  transform: scale(1.2);
+  border: #00aced 1px solid;
+}
 .next-5-days__label {
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.83em;
