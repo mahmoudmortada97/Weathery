@@ -208,7 +208,7 @@ body {
 }
 .weather-by-hour__item:hover,
 .next-5-days__row:hover {
-  transform: scale(1.2);
+  transform: scale(1.1);
   border: #00aced 1px solid;
 }
 .next-5-days__label {
