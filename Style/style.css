@@ -12,8 +12,8 @@ body {
   height: 100%;
   background-image: linear-gradient(
       to bottom,
-      rgba(43, 50, 178, 0.5) 80%,
-      rgba(20, 136, 204, 0.5) 100%
+      rgba(43, 50, 178, 0.35) 80%,
+      rgba(20, 136, 204, 0.34) 100%
     ),
     url(../Images/background.jpg);
   background-repeat: no-repeat;
@@ -159,7 +159,7 @@ body {
   padding: 0.8em 0;
   width: 13%;
   border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.45);
   font-size: 1.125em;
   text-align: center;
 }
@@ -194,7 +194,12 @@ body {
   padding: 0.8em 0;
   width: 100%;
   border-radius: 5px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-image: linear-gradient(
+    to right,
+    rgba(0, 0, 4, 0.35) 80%,
+    rgba(63, 170, 232, 0.34) 100%
+  );
+  background-color: rgba(150, 14, 14, 0.25);
   font-size: 1.19em;
   text-align: center;
 }
