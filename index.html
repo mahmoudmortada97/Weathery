@@ -31,14 +31,19 @@
             </div>
           </div>
           <div class="col-md-6 mt-3 mt-md-0">
-            <div class="search position-relative">
-              <input
-                class="form-control ms-auto"
-                type="search"
-                placeholder="Search by City Name"
-                aria-label="Search"
-                id="search"
-              />
+            <div class="d-flex justify-content-center h-100 mb-5 mb-md-0">
+              <div class="searchbar">
+                <input
+                  class="search_input"
+                  type="text"
+                  name=""
+                  placeholder="Search By City Name"
+                  id="search"
+                />
+                <a href="#" class="search_icon"
+                  ><i class="fas fa-search"></i
+                ></a>
+              </div>
             </div>
           </div>
         </div>
@@ -52,15 +57,15 @@
         <div
           class="city d-flex align-items-center rounded-pill bg-body-secondary text-primary p-2 p-md-3"
         >
-          <i class="fa-solid fa-thumbtack me-3 fs-5 text-dark"></i>
-          <p class="location-and-date__location fs-5" id="location"></p>
+          <i class="fa-solid fa-thumbtack me-3 text-dark"></i>
+          <p class="location-and-date__location" id="location"></p>
         </div>
 
         <div
           class="rounded-pill text-danger bg-body-secondary p-2 p-md-3 text-center d-flex align-items-center"
         >
-          <i class="fa-solid fa-calendar-days me-3 fs-5 text-dark"></i>
-          <p class="fs-5 m-0 p-0" id="date"></p>
+          <i class="fa-solid fa-calendar-days me-3 text-dark"></i>
+          <p class="m-0 p-0" id="date"></p>
         </div>
       </div>
 
@@ -69,7 +74,9 @@
           class="current-temperature__icon-container"
           id="current-temperature__icon-container"
         ></div>
-        <div class="current-temperature__content-container">
+        <div
+          class="current-temperature__content-container d-flex flex-column justify-content-center align-items-center"
+        >
           <div
             class="current-temperature__value"
             id="current-temperature__value"
@@ -129,62 +136,7 @@
         <h2 class="weather-by-hour__heading text-decoration-underline">
           Today's weather
         </h2>
-        <div class="weather-by-hour__container">
-          <div class="weather-by-hour__item">
-            <div class="weather-by-hour__hour">3am</div>
-            <div class="weather-by-hour__hour-image" id="_3am"></div>
-
-            <div id="_3amTempText"></div>
-            <div id="_3amTemp"></div>
-          </div>
-          <div class="weather-by-hour__item">
-            <div class="weather-by-hour__hour">6am</div>
-            <div class="weather-by-hour__hour-image" id="_6am"></div>
-
-            <div id="_6amTempText"></div>
-            <div id="_6amTemp"></div>
-          </div>
-
-          <div class="weather-by-hour__item">
-            <div class="weather-by-hour__hour">9am</div>
-            <div class="weather-by-hour__hour-image" id="_9am"></div>
-
-            <div id="_9amTempText"></div>
-            <div id="_9amTemp"></div>
-          </div>
-
-          <div class="weather-by-hour__item">
-            <div class="weather-by-hour__hour">12pm</div>
-            <div class="weather-by-hour__hour-image" id="_12pm"></div>
-
-            <div id="_12pmTempText"></div>
-            <div id="_12pmTemp"></div>
-          </div>
-
-          <div class="weather-by-hour__item">
-            <div class="weather-by-hour__hour">3pm</div>
-            <div class="weather-by-hour__hour-image" id="_3pm"></div>
-
-            <div id="_3pmTempText"></div>
-            <div id="_3pmTemp"></div>
-          </div>
-
-          <div class="weather-by-hour__item">
-            <div class="weather-by-hour__hour">6pm</div>
-            <div class="weather-by-hour__hour-image" id="_6pm"></div>
-
-            <div id="_6pmTempText"></div>
-            <div id="_6pmTemp"></div>
-          </div>
-
-          <div class="weather-by-hour__item">
-            <div class="weather-by-hour__hour">9pm</div>
-            <div class="weather-by-hour__hour-image" id="_9pm"></div>
-
-            <div id="_9pmTempText"></div>
-            <div id="_9pmTemp"></div>
-          </div>
-        </div>
+        <div class="weather-by-hour__container"></div>
       </div>
 
       <div class="next-5-days">
@@ -193,180 +145,178 @@
         </h2>
         <div class="next-5-days__container">
           <div class="next-5-days__row">
-            <div class="next-5-days__date">
-              Tue
-              <div class="next-5-days__label">30/7</div>
+            <div class="next-5-days__date"></div>
+
+            <div class="row flex-column">
+              <div class="next-5-days__low"></div>
+              <p>Low</p>
             </div>
 
-            <div class="next-5-days__low">
-              10&deg;
-              <div class="next-5-days__label">Low</div>
-            </div>
-
-            <div class="next-5-days__high">
-              21&deg;
-              <div class="next-5-days__label">High</div>
+            <div class="row flex-column">
+              <div class="next-5-days__high"></div>
+              <p>High</p>
             </div>
 
             <div class="next-5-days__icon">
-              <!-- <img
-                src="Images/sunny-1265199.svg"
-                class="img-fluid pe-3"
-                alt="Mostly sunny"
-              /> -->
+              <img src="" alt="" class="img-fluid" />
             </div>
 
-            <div class="next-5-days__rain">
-              0%
-              <div class="next-5-days__label">Rain</div>
+            <div class="row flex-column">
+              <div class="next-5-days__rain"></div>
+              <p>Rain</p>
             </div>
 
-            <div class="next-5-days__wind">
-              12mph
-              <div class="next-5-days__label">Wind</div>
+            <div class="row flex-column">
+              <div class="next-5-days__wind"></div>
+              <p>Wind</p>
             </div>
           </div>
+
           <div class="next-5-days__row">
-            <div class="next-5-days__date">
-              Wed
-              <div class="next-5-days__label">31/7</div>
+            <div class="next-5-days__date"></div>
+
+            <div class="row flex-column">
+              <div class="next-5-days__low"></div>
+              <p>Low</p>
             </div>
 
-            <div class="next-5-days__low">
-              9&deg;
-              <div class="next-5-days__label">Low</div>
-            </div>
-
-            <div class="next-5-days__high">
-              18&deg;
-              <div class="next-5-days__label">High</div>
+            <div class="row flex-column">
+              <div class="next-5-days__high"></div>
+              <p>High</p>
             </div>
 
             <div class="next-5-days__icon">
-              <!-- <img
-                src="Images/sunny-1265199.svg"
-                class="img-fluid pe-3"
-                alt="Mostly sunny"
-              /> -->
+              <img src="" alt="" class="img-fluid" />
+            </div>
+            <div class="row flex-column">
+              <div class="next-5-days__rain"></div>
+              <p>Rain</p>
             </div>
 
-            <div class="next-5-days__rain">
-              3%
-              <div class="next-5-days__label">Rain</div>
-            </div>
-
-            <div class="next-5-days__wind">
-              7mph
-              <div class="next-5-days__label">Wind</div>
+            <div class="row flex-column">
+              <div class="next-5-days__wind"></div>
+              <p>Wind</p>
             </div>
           </div>
+
           <div class="next-5-days__row">
-            <div class="next-5-days__date">
-              Thur
-              <div class="next-5-days__label">1/8</div>
-            </div>
+            <div class="next-5-days__date"></div>
 
-            <div class="next-5-days__low">
-              7&deg;
-              <div class="next-5-days__label">Low</div>
+            <div class="row flex-column">
+              <div class="next-5-days__low"></div>
+              <p>Low</p>
             </div>
-
-            <div class="next-5-days__high">
-              15&deg;
-              <div class="next-5-days__label">High</div>
+            <div class="row flex-column">
+              <div class="next-5-days__high"></div>
+              <p>High</p>
             </div>
 
             <div class="next-5-days__icon">
-              <!-- <img
-                src="Images/sunny-1265199.svg"
-                class="img-fluid pe-3"
-                alt="Mostly sunny"
-              /> -->
+              <img src="" alt="" class="img-fluid" />
             </div>
-
-            <div class="next-5-days__rain">
-              75%
-              <div class="next-5-days__label">Rain</div>
+            <div class="row flex-column">
+              <div class="next-5-days__rain"></div>
+              <p>Rain</p>
             </div>
-
-            <div class="next-5-days__wind">
-              11mph
-              <div class="next-5-days__label">Wind</div>
+            <div class="row flex-column">
+              <div class="next-5-days__wind"></div>
+              <p>Wind</p>
             </div>
           </div>
+
           <div class="next-5-days__row">
-            <div class="next-5-days__date">
-              Tue
-              <div class="next-5-days__label">2/8</div>
-            </div>
+            <div class="next-5-days__date"></div>
 
-            <div class="next-5-days__low">
-              12&deg;
-              <div class="next-5-days__label">Low</div>
+            <div class="row flex-column">
+              <div class="next-5-days__low"></div>
+              <p>Low</p>
             </div>
-
-            <div class="next-5-days__high">
-              24&deg;
-              <div class="next-5-days__label">High</div>
+            <div class="row flex-column">
+              <div class="next-5-days__high"></div>
+              <p>High</p>
             </div>
 
             <div class="next-5-days__icon">
-              <!-- <img
-                src="Images/sunny-1265199.svg"
-                class="img-fluid pe-3"
-                alt="Mostly sunny"
-              /> -->
+              <img src="" alt="" class="img-fluid" />
+            </div>
+            <div class="row flex-column">
+              <div class="next-5-days__rain"></div>
+              <p>Rain</p>
             </div>
 
-            <div class="next-5-days__rain">
-              2%
-              <div class="next-5-days__label">Rain</div>
-            </div>
-
-            <div class="next-5-days__wind">
-              8mph
-              <div class="next-5-days__label">Wind</div>
+            <div class="row flex-column">
+              <div class="next-5-days__wind"></div>
+              <p>Wind</p>
             </div>
           </div>
+
           <div class="next-5-days__row">
-            <div class="next-5-days__date">
-              Tue
-              <div class="next-5-days__label">30/7</div>
+            <div class="next-5-days__date"></div>
+            <div class="row flex-column">
+              <div class="next-5-days__low"></div>
+              <p>Low</p>
             </div>
-
-            <div class="next-5-days__low">
-              10&deg;
-              <div class="next-5-days__label">Low</div>
-            </div>
-
-            <div class="next-5-days__high">
-              21&deg;
-              <div class="next-5-days__label">High</div>
+            <div class="row flex-column">
+              <div class="next-5-days__high"></div>
+              <p>High</p>
             </div>
 
             <div class="next-5-days__icon">
-              <!-- <img
-                src="Images/sunny-1265199.svg"
-                class="img-fluid pe-3"
-                alt="Mostly sunny"
-              /> -->
+              <img src="" alt="" class="img-fluid" />
+            </div>
+            <div class="row flex-column">
+              <div class="next-5-days__rain"></div>
+              <p>Rain</p>
             </div>
 
-            <div class="next-5-days__rain">
-              0%
-              <div class="next-5-days__label">Rain</div>
-            </div>
-
-            <div class="next-5-days__wind">
-              12mph
-              <div class="next-5-days__label">Wind</div>
+            <div class="row flex-column">
+              <div class="next-5-days__wind"></div>
+              <p>Wind</p>
             </div>
           </div>
         </div>
       </div>
     </main>
+    <footer class="site-footer text-white">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-sm-6 col-xs-12">
+            <p class="copyright-text">
+              Copyright &copy; 2023 All Rights Reserved by @Mahmoud Mortada
+            </p>
+          </div>
 
-    
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <ul class="social-icons">
+              <li>
+                <a
+                  class="facebook"
+                  href="https://www.facebook.com/mahmoudmortada97"
+                  target="_blank"
+                  ><i class="fa-brands fa-facebook"></i
+                ></a>
+              </li>
+              <li>
+                <a
+                  class="twitter"
+                  href="https://twitter.com/mahmoudmorta97"
+                  target="_blank"
+                  ><i class="fa-brands fa-twitter"></i
+                ></a>
+              </li>
+              <li>
+                <a
+                  class="linkedin"
+                  href="https://www.linkedin.com/in/mahmoudmortada97/"
+                  target="_blank"
+                  ><i class="fa-brands fa-linkedin"></i
+                ></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
 
     <script src="Js/bootstrap.bundle.min.js"></script>
     <script src="Js/main.js"></script>

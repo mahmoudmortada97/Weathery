@@ -1,65 +1,8 @@
-// Step 1: Get user coordinates
-function getCoordintes() {
-  var options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 0,
-  };
-
-  function success(pos) {
-    var crd = pos.coords;
-    var lat = crd.latitude.toString();
-    var lng = crd.longitude.toString();
-    var coordinates = [lat, lng];
-    console.log(`Latitude: ${lat}, Longitude: ${lng}`);
-    getCity(coordinates);
-    return;
-  }
-
-  function error(err) {
-    console.warn(`ERROR(${err.code}): ${err.message}`);
-  }
-
-  navigator.geolocation.getCurrentPosition(success, error, options);
-}
-
-// Step 2: Get city name
-function getCity(coordinates) {
-  var xhr = new XMLHttpRequest();
-  var lat = coordinates[0];
-  var lng = coordinates[1];
-
-  // Paste your LocationIQ token below.
-  xhr.open(
-    "GET",
-    `
-https://us1.locationiq.com/v1/reverse.php?key=pk.fee98d8c991be6288de6d3e8b0efb922&lat=` +
-      lat +
-      "&lon=" +
-      lng +
-      "&format=json",
-    true
-  );
-  xhr.send();
-  xhr.onreadystatechange = processRequest;
-  xhr.addEventListener("readystatechange", processRequest, false);
-
-  function processRequest(e) {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      var response = JSON.parse(xhr.responseText);
-      var city = response.address.city;
-      console.log(city);
-      return;
-    }
-  }
-}
-
-let userCity = getCoordintes();
-
 const weatherApplication = document;
 const searchInput = weatherApplication.querySelector("#search");
 const cityLocation = weatherApplication.querySelector("#location");
 const currentDate = weatherApplication.querySelector("#date");
+
 const currentTemperature = weatherApplication.querySelector(
   "#current-temperature__value"
 );
@@ -81,6 +24,52 @@ const currentRainPercentage = weatherApplication.querySelector(
 );
 const currentSunrise = weatherApplication.querySelector("#currentSunrise");
 const currentSunset = weatherApplication.querySelector("#currentSunset");
+
+const weatherByHourContainerList = weatherApplication.querySelector(
+  ".weather-by-hour__container"
+);
+
+// ******************************** Self Invoke Function ******************************** //
+//! To Make Section of Today's weather in Js
+(() => {
+  let weatherByHourContainerListCartona = ``;
+  let time = 3;
+  let timeperiod = "am";
+  for (let i = 0; i < 7; i++) {
+    if (time < 11) {
+      weatherByHourContainerListCartona += ` <div class="weather-by-hour__item">
+    <div class="weather-by-hour__hour">${time}${timeperiod}</div>
+    <div class="weather-by-hour__hour-image" id="_${time}${timeperiod}"></div>
+
+    <div id="_${time}${timeperiod}TempText"></div>
+    <div id="_${time}${timeperiod}Temp"></div>
+  </div>`;
+      time += 3;
+    } else if (time == 12) {
+      timeperiod = "pm";
+      weatherByHourContainerListCartona += ` <div class="weather-by-hour__item">
+    <div class="weather-by-hour__hour">${time}${timeperiod}</div>
+    <div class="weather-by-hour__hour-image" id="_${time}${timeperiod}"></div>
+
+    <div id="_${time}${timeperiod}TempText"></div>
+    <div id="_${time}${timeperiod}Temp"></div>
+  </div>`;
+      time = 3;
+    } else {
+      weatherByHourContainerListCartona += ` <div class="weather-by-hour__item">
+    <div class="weather-by-hour__hour">${time}${timeperiod}</div>
+    <div class="weather-by-hour__hour-image" id="_${time}${timeperiod}"></div>
+
+    <div id="_${time}${timeperiod}TempText"></div>
+    <div id="_${time}${timeperiod}Temp"></div>
+  </div>`;
+    }
+  }
+  weatherByHourContainerList.innerHTML = weatherByHourContainerListCartona;
+})();
+// ******************************** Self Invoke Function ******************************** //
+
+// ******************************** Today's Weather  ******************************** //
 
 const _3am = weatherApplication.querySelector("#_3am");
 const _3amTemperatue = weatherApplication.querySelector("#_3amTemp");
@@ -109,165 +98,207 @@ const _6pmTemperatueText = weatherApplication.querySelector("#_6pmTempText");
 const _9pm = weatherApplication.querySelector("#_9pm");
 const _9pmTemperatue = weatherApplication.querySelector("#_9pmTemp");
 const _9pmTemperatueText = weatherApplication.querySelector("#_9pmTempText");
+// ******************************** Today's Weather  ******************************** //
 
-let searchedCity = "";
+// ******************************** Next 5 Days Weather  ******************************** //
 
-try {
-  searchInput.addEventListener("input", async function (e) {
-    searchedCity = searchInput.value;
-    await getWeatherInfo(searchedCity || userCity);
-  });
-} catch (error) {
-  console.log("error please wait");
-}
+const nextDaysList = weatherApplication.querySelectorAll(".next-5-days__date");
+const nextDaysListLowTemp =
+  weatherApplication.querySelectorAll(".next-5-days__low");
+
+const nextDaysListHighTemp =
+  weatherApplication.querySelectorAll(".next-5-days__high");
+
+const nextDaysListRain =
+  weatherApplication.querySelectorAll(".next-5-days__rain");
+
+const nextDaysListIcon =
+  weatherApplication.querySelectorAll(".next-5-days__icon");
+
+const nextDaysListWind =
+  weatherApplication.querySelectorAll(".next-5-days__wind");
+
+// ******************************** Next 5 Days Weather  ******************************** //
+
 const forecastHTTP = new XMLHttpRequest();
 
-//**Main Entry Point */
+// ******************************** Main Entry Point To Application ******************************** //
+
 (async function () {
+  let searchedCity = "";
+  //? When User Start Typing in Search Input
+  searchInput.addEventListener("input", async function (e) {
+    searchedCity = searchInput.value;
+    await getweatherData(searchedCity || "alex");
+  });
+  //? When User Start Typing in Search Input
+
   // searchCity();
-  await getWeatherInfo(searchedCity || "alex");
+  await getweatherData(searchedCity || "alex");
 })();
 
-async function getWeatherInfo(city) {
-  let weather;
-  try {
-    weather = await fetch(
-      `https://api.weatherapi.com/v1/forecast.json?key=47941096b86d4f388bc140500232202&q=${city}&days=6&aqi=no&alerts=no`
-    );
-  } catch (error) {
-    console.log("eroor");
-  }
-  let weatherInfo = await weather.json();
-  await displayweather(weatherInfo);
+async function getweatherData(city) {
+  let weather = await fetch(
+    `https://api.weatherapi.com/v1/forecast.json?key=47941096b86d4f388bc140500232202&q=${city}&days=6&aqi=no&alerts=no`
+  );
+  let weatherData = await weather.json();
+  await displayweather(weatherData);
 }
 
-async function displayweather(weatherInfo) {
-  if (weatherInfo.location) {
-    const dayObject = new Date(weatherInfo.location.localtime);
+function displayweather(weatherData) {
+  if (weatherData.location) {
+    console.log(weatherData);
+    const dayObject = new Date(weatherData.location.localtime);
 
     currentDay = {
-      city: weatherInfo.location.name,
-      day: getSpecificDay(dayObject.getDay()),
-      country: weatherInfo.location.country,
-      date: weatherInfo.location.localtime,
-      temperatue: weatherInfo.current.temp_c,
-      temperatueText: weatherInfo.current.condition.text,
-      temperatueImage: weatherInfo.current.condition.icon,
-      highestTemperatue: weatherInfo.forecast.forecastday[0].day.maxtemp_c,
-      lowestTemperatue: weatherInfo.forecast.forecastday[0].day.mintemp_c,
-      wind: weatherInfo.current.wind_mph,
+      city: weatherData.location.name,
+      day: getDayName(dayObject.getDay()),
+      country: weatherData.location.country,
+      date: weatherData.location.localtime,
+      temperatue: weatherData.current.temp_c,
+      temperatueText: weatherData.current.condition.text,
+      temperatueImage: weatherData.current.condition.icon,
+      highestTemperatue: weatherData.forecast.forecastday[0].day.maxtemp_c,
+      lowestTemperatue: weatherData.forecast.forecastday[0].day.mintemp_c,
+      wind: weatherData.current.wind_mph,
       rainPercentage:
-        weatherInfo.forecast.forecastday[0].day.daily_chance_of_rain,
-      sunrise: weatherInfo.forecast.forecastday[0].astro.sunrise,
-      sunset: weatherInfo.forecast.forecastday[0].astro.sunset,
+        weatherData.forecast.forecastday[0].day.daily_chance_of_rain,
+      sunrise: weatherData.forecast.forecastday[0].astro.sunrise,
+      sunset: weatherData.forecast.forecastday[0].astro.sunset,
       weather3am: {
-        temperatue: weatherInfo.forecast.forecastday[0].hour[3].temp_c,
+        temperatue: weatherData.forecast.forecastday[0].hour[3].temp_c,
 
         temperatueText:
-          weatherInfo.forecast.forecastday[0].hour[3].condition.text,
+          weatherData.forecast.forecastday[0].hour[3].condition.text,
         temperatueImage:
-          weatherInfo.forecast.forecastday[0].hour[3].condition.icon,
+          weatherData.forecast.forecastday[0].hour[3].condition.icon,
       },
       weather6am: {
-        temperatue: weatherInfo.forecast.forecastday[0].hour[6].temp_c,
+        temperatue: weatherData.forecast.forecastday[0].hour[6].temp_c,
 
         temperatueText:
-          weatherInfo.forecast.forecastday[0].hour[6].condition.text,
+          weatherData.forecast.forecastday[0].hour[6].condition.text,
         temperatueImage:
-          weatherInfo.forecast.forecastday[0].hour[6].condition.icon,
+          weatherData.forecast.forecastday[0].hour[6].condition.icon,
       },
       weather9am: {
-        temperatue: weatherInfo.forecast.forecastday[0].hour[9].temp_c,
+        temperatue: weatherData.forecast.forecastday[0].hour[9].temp_c,
 
         temperatueText:
-          weatherInfo.forecast.forecastday[0].hour[9].condition.text,
+          weatherData.forecast.forecastday[0].hour[9].condition.text,
         temperatueImage:
-          weatherInfo.forecast.forecastday[0].hour[9].condition.icon,
+          weatherData.forecast.forecastday[0].hour[9].condition.icon,
       },
       weather12pm: {
-        temperatue: weatherInfo.forecast.forecastday[0].hour[12].temp_c,
+        temperatue: weatherData.forecast.forecastday[0].hour[12].temp_c,
 
         temperatueText:
-          weatherInfo.forecast.forecastday[0].hour[12].condition.text,
+          weatherData.forecast.forecastday[0].hour[12].condition.text,
         temperatueImage:
-          weatherInfo.forecast.forecastday[0].hour[12].condition.icon,
+          weatherData.forecast.forecastday[0].hour[12].condition.icon,
       },
       weather3pm: {
-        temperatue: weatherInfo.forecast.forecastday[0].hour[15].temp_c,
+        temperatue: weatherData.forecast.forecastday[0].hour[15].temp_c,
 
         temperatueText:
-          weatherInfo.forecast.forecastday[0].hour[15].condition.text,
+          weatherData.forecast.forecastday[0].hour[15].condition.text,
         temperatueImage:
-          weatherInfo.forecast.forecastday[0].hour[15].condition.icon,
+          weatherData.forecast.forecastday[0].hour[15].condition.icon,
       },
       weather6pm: {
-        temperatue: weatherInfo.forecast.forecastday[0].hour[18].temp_c,
+        temperatue: weatherData.forecast.forecastday[0].hour[18].temp_c,
 
         temperatueText:
-          weatherInfo.forecast.forecastday[0].hour[18].condition.text,
+          weatherData.forecast.forecastday[0].hour[18].condition.text,
         temperatueImage:
-          weatherInfo.forecast.forecastday[0].hour[18].condition.icon,
+          weatherData.forecast.forecastday[0].hour[18].condition.icon,
       },
       weather9pm: {
-        temperatue: weatherInfo.forecast.forecastday[0].hour[21].temp_c,
+        temperatue: weatherData.forecast.forecastday[0].hour[21].temp_c,
 
         temperatueText:
-          weatherInfo.forecast.forecastday[0].hour[21].condition.text,
+          weatherData.forecast.forecastday[0].hour[21].condition.text,
         temperatueImage:
-          weatherInfo.forecast.forecastday[0].hour[21].condition.icon,
+          weatherData.forecast.forecastday[0].hour[21].condition.icon,
       },
     };
+    nextDays = {
+      days: weatherData.forecast.forecastday,
+    };
+
+    for (let i = 0; i < nextDays.days.length - 1; i++) {
+      let dayObject = new Date(nextDays.days[i + 1].date)
+        .toDateString()
+        .split(" ");
+
+      nextDaysList[i].innerText = dayObject[0];
+      nextDaysListLowTemp[i].innerText = `${
+        nextDays.days[i + 1].day.mintemp_c
+      }\u00B0`;
+      nextDaysListHighTemp[i].innerText = `${
+        nextDays.days[i + 1].day.maxtemp_c
+      }\u00B0`;
+      nextDaysListRain[i].innerText = `${
+        nextDays.days[i + 1].day.daily_chance_of_rain
+      }%`;
+      nextDaysListIcon[i].innerHTML = `<img src="${
+        nextDays.days[i + 1].day.condition.icon
+      }"></img>
+      <p>${nextDays.days[i + 1].day.condition.text}</p>
+      `;
+      nextDaysListWind[i].innerText = `${
+        nextDays.days[i + 1].day.maxwind_mph
+      }mph`;
+    }
+    currentTemperatureIconContainer.innerHTML = `<img src="${currentDay.temperatueImage}" class="w-100"/>`;
+    cityLocation.innerText = `${currentDay.city}, ${currentDay.country}`;
+    currentDate.innerHTML = `${currentDay.day}, ${currentDay.date}`;
+    currentTemperature.innerText = `${currentDay.temperatue}\u00B0`;
+    currentTemperatureText.innerText = `${currentDay.temperatueText}`;
+    currentHighestTemperature.innerText = `${currentDay.highestTemperatue} \u00B0`;
+    currentLowestTemperature.innerText = `${currentDay.lowestTemperatue} \u00B0`;
+    currentWind.innerText = `${currentDay.wind}mph`;
+    currentRainPercentage.innerText = `${currentDay.rainPercentage}%`;
+    currentSunrise.innerText = `${currentDay.sunrise}`;
+    currentSunset.innerText = `${currentDay.sunset}`;
+
+    // for (let i = 3; i < ; i += 3) {
+    //   const element = array[i];
+    // }
+
+    _3am.innerHTML = `<img src="${currentDay.weather3am.temperatueImage}" class="img-fluid"/>`;
+    _3amTemperatueText.innerText = `${currentDay.weather3am.temperatueText}`;
+    _3amTemperatue.innerText = `${currentDay.weather3am.temperatue} \u00B0`;
+
+    _6am.innerHTML = `<img src="${currentDay.weather6am.temperatueImage}" class="img-fluid"/>`;
+    _6amTemperatueText.innerText = `${currentDay.weather6am.temperatueText}`;
+    _6amTemperatue.innerText = `${currentDay.weather6am.temperatue} \u00B0`;
+
+    _9am.innerHTML = `<img src="${currentDay.weather9am.temperatueImage}" class="img-fluid"/>`;
+    _9amTemperatueText.innerText = `${currentDay.weather9am.temperatueText}`;
+    _9amTemperatue.innerText = `${currentDay.weather9am.temperatue} \u00B0`;
+
+    _12pm.innerHTML = `<img src="${currentDay.weather12pm.temperatueImage}" class="img-fluid"/>`;
+    _12pmTemperatueText.innerText = `${currentDay.weather12pm.temperatueText}`;
+    _12pmTemperatue.innerText = `${currentDay.weather12pm.temperatue} \u00B0`;
+
+    _3pm.innerHTML = `<img src="${currentDay.weather3pm.temperatueImage}" class="img-fluid"/>`;
+    _3pmTemperatueText.innerText = `${currentDay.weather3pm.temperatueText}`;
+    _3pmTemperatue.innerText = `${currentDay.weather3pm.temperatue} \u00B0`;
+
+    _6pm.innerHTML = `<img src="${currentDay.weather6pm.temperatueImage}" class="img-fluid"/>`;
+    _6pmTemperatueText.innerText = `${currentDay.weather6pm.temperatueText}`;
+    _6pmTemperatue.innerText = `${currentDay.weather6pm.temperatue} \u00B0`;
+
+    _9pm.innerHTML = `<img src="${currentDay.weather9pm.temperatueImage}" class="img-fluid"/>`;
+    _9pmTemperatueText.innerText = `${currentDay.weather9pm.temperatueText}`;
+    _9pmTemperatue.innerText = `${currentDay.weather9pm.temperatue} \u00B0`;
   }
-
-  currentTemperatureIconContainer.innerHTML = `<img src="${currentDay.temperatueImage}" class="w-100"/>`;
-  cityLocation.innerText = `${currentDay.city}, ${currentDay.country}`;
-  currentDate.innerHTML = `${currentDay.day}, ${currentDay.date}`;
-  currentTemperature.innerText = `${currentDay.temperatue} \u00B0`;
-  currentTemperatureText.innerText = `${currentDay.temperatueText}`;
-  currentHighestTemperature.innerText = `${currentDay.highestTemperatue} \u00B0`;
-  currentLowestTemperature.innerText = `${currentDay.lowestTemperatue} \u00B0`;
-  currentWind.innerText = `${currentDay.wind}mph`;
-  currentRainPercentage.innerText = `${currentDay.rainPercentage} %`;
-  currentSunrise.innerText = `${currentDay.sunrise}`;
-  currentSunset.innerText = `${currentDay.sunset}`;
-
-  // for (let i = 3; i < ; i += 3) {
-  //   const element = array[i];
-  // }
-
-  _3am.innerHTML = `<img src="${currentDay.weather3am.temperatueImage}" class="img-fluid"/>`;
-  _3amTemperatueText.innerText = `${currentDay.weather3am.temperatueText}`;
-  _3amTemperatue.innerText = `${currentDay.weather3am.temperatue} \u00B0`;
-
-  _6am.innerHTML = `<img src="${currentDay.weather6am.temperatueImage}" class="img-fluid"/>`;
-  _6amTemperatueText.innerText = `${currentDay.weather6am.temperatueText}`;
-  _6amTemperatue.innerText = `${currentDay.weather6am.temperatue} \u00B0`;
-
-  _9am.innerHTML = `<img src="${currentDay.weather9am.temperatueImage}" class="img-fluid"/>`;
-  _9amTemperatueText.innerText = `${currentDay.weather9am.temperatueText}`;
-  _9amTemperatue.innerText = `${currentDay.weather9am.temperatue} \u00B0`;
-
-  _12pm.innerHTML = `<img src="${currentDay.weather12pm.temperatueImage}" class="img-fluid"/>`;
-  _12pmTemperatueText.innerText = `${currentDay.weather12pm.temperatueText}`;
-  _12pmTemperatue.innerText = `${currentDay.weather12pm.temperatue} \u00B0`;
-
-  _3pm.innerHTML = `<img src="${currentDay.weather3pm.temperatueImage}" class="img-fluid"/>`;
-  _3pmTemperatueText.innerText = `${currentDay.weather3pm.temperatueText}`;
-  _3pmTemperatue.innerText = `${currentDay.weather3pm.temperatue} \u00B0`;
-
-  _6pm.innerHTML = `<img src="${currentDay.weather6pm.temperatueImage}" class="img-fluid"/>`;
-  _6pmTemperatueText.innerText = `${currentDay.weather6pm.temperatueText}`;
-  _6pmTemperatue.innerText = `${currentDay.weather6pm.temperatue} \u00B0`;
-
-  _9pm.innerHTML = `<img src="${currentDay.weather9pm.temperatueImage}" class="img-fluid"/>`;
-  _9pmTemperatueText.innerText = `${currentDay.weather9pm.temperatueText}`;
-  _9pmTemperatue.innerText = `${currentDay.weather9pm.temperatue} \u00B0`;
-
   //** */
-  console.log(weatherInfo);
+  // console.log(weatherData);
 }
 
-function getSpecificDay(num) {
+function getDayName(num) {
   switch (num) {
     case 0:
       return "Sunday";
@@ -292,11 +323,3 @@ function getSpecificDay(num) {
       break;
   }
 }
-// const xmas95 = new Date("2023-02-27 23:15:30");
-// const weekday = xmas95.getDay();
-
-// const options = { weekday: "long" };
-// console.log(new Intl.DateTimeFormat("en-US", options).format(xmas95));
-// // Monday
-// console.log(new Intl.DateTimeFormat("de-DE", options).format(xmas95));
-// // Montag
