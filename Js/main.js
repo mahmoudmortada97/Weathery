@@ -243,8 +243,7 @@ function displayweather(weatherData) {
       }%`;
       nextDaysListIcon[i].innerHTML = `<img src="${
         nextDays.days[i + 1].day.condition.icon
-      }"></img>
-      <p>${nextDays.days[i + 1].day.condition.text}</p>
+      }" class =""img-fluid></img>
       `;
       nextDaysListWind[i].innerText = `${
         nextDays.days[i + 1].day.maxwind_mph

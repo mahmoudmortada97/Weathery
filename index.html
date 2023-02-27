@@ -57,20 +57,24 @@
 
     <main class="main-container">
       <div
-        class="location-and-date d-flex justify-content-around align-items-center gap-5"
+        class="location-and-date row justify-content-around align-items-center"
       >
-        <div
-          class="city d-flex align-items-center rounded-pill bg-body-secondary text-primary p-2 p-md-3"
-        >
-          <i class="fa-solid fa-thumbtack me-3 text-dark"></i>
-          <p class="location-and-date__location" id="location"></p>
+        <div class="col-md-6">
+          <div
+            class="city d-flex align-items-center rounded-pill bg-body-secondary text-primary p-2 mb-2 mb-md-0 p-md-3"
+          >
+            <i class="fa-solid fa-thumbtack me-3 text-dark"></i>
+            <p class="location-and-date__location" id="location"></p>
+          </div>
         </div>
 
-        <div
-          class="rounded-pill text-danger bg-body-secondary p-2 p-md-3 text-center d-flex align-items-center"
-        >
-          <i class="fa-solid fa-calendar-days me-3 text-dark"></i>
-          <p class="m-0 p-0" id="date"></p>
+        <div class="col-md-6">
+          <div
+            class="rounded-pill text-danger bg-body-secondary p-2 p-md-3 text-center d-flex align-items-center"
+          >
+            <i class="fa-solid fa-calendar-days me-3 text-dark"></i>
+            <p class="m-0 p-0" id="date"></p>
+          </div>
         </div>
       </div>
 
@@ -160,7 +164,9 @@
         <h2 class="next-5-days__heading text-decoration-underline">
           Next 5 days
         </h2>
-        <div class="next-5-days__container">
+        <div
+          class="next-5-days__container row justify-content-center align-items-center"
+        >
           <div class="next-5-days__row">
             <div class="next-5-days__date"></div>
 
