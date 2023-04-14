@@ -133,7 +133,6 @@ const forecastHTTP = new XMLHttpRequest();
   });
   //? When User Start Typing in Search Input
 
-  // searchCity();
   await getweatherData(searchedCity || "alex");
 })();
 
@@ -261,10 +260,6 @@ function displayweather(weatherData) {
     currentSunrise.innerText = `${currentDay.sunrise}`;
     currentSunset.innerText = `${currentDay.sunset}`;
 
-    // for (let i = 3; i < ; i += 3) {
-    //   const element = array[i];
-    // }
-
     _3am.innerHTML = `<img src="${currentDay.weather3am.temperatueImage}" class="img-fluid"/>`;
     _3amTemperatueText.innerText = `${currentDay.weather3am.temperatueText}`;
     _3amTemperatue.innerText = `${currentDay.weather3am.temperatue} \u00B0`;
@@ -293,32 +288,23 @@ function displayweather(weatherData) {
     _9pmTemperatueText.innerText = `${currentDay.weather9pm.temperatueText}`;
     _9pmTemperatue.innerText = `${currentDay.weather9pm.temperatue} \u00B0`;
   }
-  //** */
-  // console.log(weatherData);
 }
 
 function getDayName(num) {
   switch (num) {
     case 0:
       return "Sunday";
-      break;
     case 1:
       return "Monday";
-      break;
     case 2:
       return "Tuesday";
-      break;
     case 3:
       return "Wednesday";
-      break;
     case 4:
       return "Thursday";
-      break;
     case 5:
       return "Friday";
-      break;
     case 6:
       return "Saturday";
-      break;
   }
 }
